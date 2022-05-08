@@ -2,4 +2,12 @@
     <string name="app_name">Applock</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Strings for fragment_applist.xml   -->
+    <string name="applist_place_holder">List of apps will appear here</string>
+
+    <!-- Strings for Applist page and layouts relating to that page   -->
+    <string name="app_card_name">Appname</string>
+    <string name="setting_place_holder">Settings will appear here</string>
+
 </resources>
