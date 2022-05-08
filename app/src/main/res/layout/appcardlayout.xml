@@ -8,6 +8,7 @@
         android:id="@+id/appiconid"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/ic_baseline_android_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,18 +21,18 @@
         android:text="@string/app_card_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lockstatusid"
+        app:layout_constraintHorizontal_bias="0.140"
         app:layout_constraintStart_toEndOf="@+id/appiconid"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/lockstatusid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

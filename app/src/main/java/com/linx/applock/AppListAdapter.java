@@ -1,5 +1,6 @@
 package com.linx.applock;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.layoutIcon.setImageDrawable(installedApps.get(position).cardIcon);
         holder.layoutName.setText(installedApps.get(position).cardName);
 
