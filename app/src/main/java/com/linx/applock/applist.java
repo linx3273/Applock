@@ -44,7 +44,13 @@ public class applist extends Fragment {
     }
 
     public void getPackages(){
-        PackageManager packageManager = getContext().getPackageManager();
+        /*
+        get a list of installed apps on the device and adds to a list of appCardStruct
+        while resolving the app name and it's icons and maps it to the recyclerview
+
+        ISSUE: only preinstalled apps are appearing for some reason, probably might have to fix permissions for the app
+         */
+        PackageManager packageManager = getActivity().getPackageManager();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);

@@ -18,6 +18,9 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
+    /*
+    class to create an app card for adding as a display to the app during runtime
+     */
     List<appCardStruct> installedApps;
     Context context;
 
@@ -39,6 +42,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        /*
+        bind data to the card layout and add an event listener to check for toggles on
+        locking/unlocking the app
+         */
         holder.layoutIcon.setImageDrawable(installedApps.get(position).cardIcon);
         holder.layoutName.setText(installedApps.get(position).cardName);
 
@@ -49,8 +56,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
             holder.lockstatus.setImageResource(R.drawable.unlockedred);
         }
 
+        // event listeners to check for toggles on the lock status of each app
         holder.lockstatus.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 if (installedApps.get(position).cardLockStatus){
@@ -77,6 +84,9 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         ImageView lockstatus;
 
         public ViewHolder(@NonNull View itemView) {
+            /*
+            obtains an instance of the card layout to so that data can be bound to it
+            */
             super(itemView);
             layoutName = itemView.findViewById(R.id.appnameid);
             layoutIcon = itemView.findViewById(R.id.appiconid);
