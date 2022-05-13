@@ -49,6 +49,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         holder.layoutIcon.setImageDrawable(installedApps.get(position).cardIcon);
         holder.layoutName.setText(installedApps.get(position).cardName);
 
+        // creating the default lock status icon
         if(installedApps.get(position).cardLockStatus){
             holder.lockstatus.setImageResource(R.drawable.lockedgreen);
         }
@@ -60,12 +61,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         holder.lockstatus.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (installedApps.get(position).cardLockStatus){
-                    installedApps.get(position).cardLockStatus = false;
+                if (!installedApps.get(position).cardLockStatus){
+                    installedApps.get(position).cardLockStatus = true;
                     holder.lockstatus.setImageResource(R.drawable.lockedgreen);
                 }
                 else{
-                    installedApps.get(position).cardLockStatus = true;
+                    installedApps.get(position).cardLockStatus = false;
                     holder.lockstatus.setImageResource(R.drawable.unlockedred);
 
                 }
