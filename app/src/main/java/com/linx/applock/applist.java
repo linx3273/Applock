@@ -65,12 +65,15 @@ public class applist extends Fragment {
         appsCard = new ArrayList<>();
 
         for (ResolveInfo info: appslist){
-            appCardStruct appCardInstance = new appCardStruct();
-            appCardInstance.setCardIcon(info.activityInfo.loadIcon(packageManager));
-            appCardInstance.setCardPackageName(info.activityInfo.packageName);
-            appCardInstance.setCardName((String) info.activityInfo.loadLabel(packageManager));
 
-            appsCard.add(appCardInstance);
+            if(!"com.linx.applock".equals((String)info.activityInfo.packageName)) {
+                appCardStruct appCardInstance = new appCardStruct();
+                appCardInstance.setCardIcon(info.activityInfo.loadIcon(packageManager));
+                appCardInstance.setCardPackageName(info.activityInfo.packageName);
+                appCardInstance.setCardName((String) info.activityInfo.loadLabel(packageManager));
+
+                appsCard.add(appCardInstance);
+            }
         }
 
         AppListAdapter listAdapter = new AppListAdapter(appsCard);
