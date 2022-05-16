@@ -23,13 +23,23 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             // creating an event listener for the options on the navigation bar
             // check the clicked menu item and call function accordingly using switch
+
+            Fragment appsPage = null;
+            Fragment settingsPage = null;
+
             switch (item.getItemId()) {
                 case R.id.applist:
-                    replaceFragment(new applist());
+                    if (appsPage == null){
+                        appsPage = new applist();
+                    }
+                    replaceFragment(appsPage);
                     break;
 
                 case R.id.settings:
-                    replaceFragment(new settings());
+                    if (settingsPage == null){
+                        settingsPage = new settings();
+                    }
+                    replaceFragment(settingsPage);
                     break;
             }
 

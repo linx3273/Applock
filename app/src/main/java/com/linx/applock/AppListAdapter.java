@@ -21,7 +21,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     /*
     class to create an app card for adding as a display to the app during runtime
      */
-    List<appCardStruct> installedApps;
+    List<appCardStruct> installedApps;  // list of app cards that will be given to the recylerview
     Context context;
 
     AppListAdapter(List<appCardStruct> apps){

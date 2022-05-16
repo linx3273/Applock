@@ -8,10 +8,10 @@ public class appCardStruct {
     class designed for matching the structure of the layout @res/layout/appcardlayout.xml
     Each of the variables have a getter and setter function defined to map data to them
      */
-    String cardPackageName;
-    Drawable cardIcon;
-    String cardName;
-    boolean cardLockStatus;
+    String cardPackageName; // package name format of app eg com.abc.def
+    Drawable cardIcon;  //icon of the app
+    String cardName;    // name of the app
+    boolean cardLockStatus; // store the current lock status of the app
 
     @Override
     public boolean equals(Object o) {

@@ -50,12 +50,16 @@ public class applist extends Fragment {
 
         ISSUE: only preinstalled apps are appearing for some reason, probably might have to fix permissions for the app
          */
+        List<ResolveInfo> appslist; // temporary list to get store all installed apps in it
+        List<appCardStruct> appsCard;   // extract for each app from appslist to create a list of apps based on our required structure
+
         PackageManager packageManager = getActivity().getPackageManager();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> appslist = packageManager.queryIntentActivities(intent, 0);
-        List<appCardStruct> apps = new ArrayList<>();
+
+        appslist = packageManager.queryIntentActivities(intent, 0);
+        appsCard = new ArrayList<>();
 
         for (ResolveInfo info: appslist){
             appCardStruct appCardInstance = new appCardStruct();
@@ -63,10 +67,10 @@ public class applist extends Fragment {
             appCardInstance.setCardPackageName(info.activityInfo.packageName);
             appCardInstance.setCardName((String) info.activityInfo.loadLabel(packageManager));
 
-            apps.add(appCardInstance);
+            appsCard.add(appCardInstance);
         }
 
-        AppListAdapter listAdapter = new AppListAdapter(apps);
+        AppListAdapter listAdapter = new AppListAdapter(appsCard);
         recyclerView.setAdapter(listAdapter);
     }
 }
