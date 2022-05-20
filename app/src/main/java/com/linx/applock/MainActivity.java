@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // setting applist as the default fragment when the application is launched
         replaceFragment(appsPage);
 
+        // event listener for the navigation bar
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             // creating an event listener for the options on the navigation bar
             // check the clicked menu item and call function accordingly using switch
@@ -43,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(settingsPage);
                     break;
             }
-
-
             return true;
         });
     }
@@ -59,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void authCallback(){
+        // function launches an activity for biometric authentication and
+        // waits for a response depending on authentication success or failure
+        // incase the user tries to cancel the authentication status the application closes
         Intent intent = new Intent(this, deviceAuth.class);
 
         ActivityResultLauncher<Intent> authResult = registerForActivityResult(

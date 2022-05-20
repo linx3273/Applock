@@ -31,7 +31,7 @@ public class deviceAuth extends AppCompatActivity {
         authenticate();
     }
 
-    private int authenticate(){
+    private void authenticate(){
         // creating the prompt to requesting the biometric
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Authentication Required!")
@@ -39,11 +39,12 @@ public class deviceAuth extends AppCompatActivity {
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .setConfirmationRequired(false)
                 .build();
+        // BIOMETRIC_WEAK - uses face || fingerprint || iris
+        // BIOMETRIC_STRONG - uses only fingerprint
+        // DEVICE_CREDENTIAL - requires pin/password/pattern based on what user has set up for his device
 
+        //handling response to biometric authentications
         Executor executor = ContextCompat.getMainExecutor(this);
-
-
-
         BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
@@ -55,6 +56,7 @@ public class deviceAuth extends AppCompatActivity {
 
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                // called when the user force closes the authentication error and it cannot be recovered
                 super.onAuthenticationSucceeded(result);
                 authSuccessful();
                 setResult(RESULT_OK);
@@ -63,27 +65,35 @@ public class deviceAuth extends AppCompatActivity {
 
             @Override
             public void onAuthenticationFailed() {
+                // called when the the recognition is not occuring
                 super.onAuthenticationFailed();
                 authFailed();
             }
         });
 
+        // calling the biometric authentication prompt based on the settings provided above
         biometricPrompt.authenticate(promptInfo);
-        return 1;
     }
 
     private void checkCompatibility(){
+        /*
+        checks whether device has biometric support or not
+         */
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)){
             case BiometricManager.BIOMETRIC_SUCCESS:
                 break;
 
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                // device lacks the hardware to support biometric authentication on running device
                 msgToast((int) R.string.hardwareMissing,Toast.LENGTH_LONG);
+                // in these cases it will by default depend on DEVICE_CREDENTIALS (if set up)
                 break;
 
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                //  although the hardware is present for biometric authentication, the hardware might have been disabled by the os or user
                 msgToast((int) R.string.hardwareUnvailabale, Toast.LENGTH_LONG);
+                // in these cases it will by default depend on DEVICE_CREDENTIALS (if set up)
                 break;
 
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
@@ -116,6 +126,7 @@ public class deviceAuth extends AppCompatActivity {
 
 
     private void msgToast(int msg, int size) {
+        // a method to create custom Toast widget messages
         Toast.makeText(this, msg, size).show();
     }
 
