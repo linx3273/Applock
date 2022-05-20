@@ -45,7 +45,7 @@ public class applist extends Fragment {
         return rootView;
     }
 
-    public void getPackages(){
+    private void getPackages(){
         /*
         get a list of installed apps on the device and adds to a list of appCardStruct
         while resolving the app name and it's icons and maps it to the recyclerview

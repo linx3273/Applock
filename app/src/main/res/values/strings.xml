@@ -10,4 +10,13 @@
     <string name="app_card_name">Appname</string>
     <string name="setting_place_holder">Settings will appear here</string>
 
+    <!-- Strings for deviceAuth    -->
+    <string name="authTitle">Authentication Required!</string>
+    <string name="authMessage">Use any of the below options to authenticate your device</string>
+    <string name="authfail">Authentication Failed</string>
+    <string name="authsuccess">Authentication Successful</string>
+    <string name="authErr">Error: Please try again</string>
+    <string name="hardwareMissing">Error: Your device does not support Biometric Authentication</string>
+    <string name="hardwareUnvailabale">Error: Biometric hardware currently unavailable</string>
+    <string name="biometricEnroll">Please set up biometric features on your device to use them</string>
 </resources>

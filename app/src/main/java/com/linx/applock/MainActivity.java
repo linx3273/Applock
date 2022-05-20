@@ -1,5 +1,7 @@
 package com.linx.applock;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         // setting applist as the default fragment when the application is launched
         replaceFragment(new applist());
 
+        Intent intent = new Intent(this, deviceAuth.class);
+        startActivity(intent);
+        finish();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             // creating an event listener for the options on the navigation bar
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(settingsPage);
                     break;
             }
+
 
             return true;
         });
