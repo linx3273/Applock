@@ -1,8 +1,14 @@
 package com.linx.applock;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,40 +16,30 @@ import androidx.fragment.app.FragmentTransaction;
 import com.linx.applock.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
+    Fragment appsPage = new applist();
+    Fragment settingsPage = new settings();
     ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // setting applist as the default fragment when the application is launched
-        replaceFragment(new applist());
+        authCallback();
 
-        Intent intent = new Intent(this, deviceAuth.class);
-        startActivity(intent);
-        finish();
+        // setting applist as the default fragment when the application is launched
+        replaceFragment(appsPage);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             // creating an event listener for the options on the navigation bar
             // check the clicked menu item and call function accordingly using switch
-
-            Fragment appsPage = null;
-            Fragment settingsPage = null;
-
             switch (item.getItemId()) {
                 case R.id.applist:
-                    if (appsPage == null){
-                        appsPage = new applist();
-                    }
                     replaceFragment(appsPage);
                     break;
 
                 case R.id.settings:
-                    if (settingsPage == null){
-                        settingsPage = new settings();
-                    }
                     replaceFragment(settingsPage);
                     break;
             }
@@ -60,5 +56,27 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
 
+    }
+
+    private void authCallback(){
+        Intent intent = new Intent(this, deviceAuth.class);
+
+        ActivityResultLauncher<Intent> authResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_CANCELED){
+                            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                            homeIntent.addCategory(Intent.CATEGORY_HOME);
+                            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(homeIntent);
+                            finish();
+                        }
+                    }
+                }
+        );
+        authResult.launch(intent);
     }
 }

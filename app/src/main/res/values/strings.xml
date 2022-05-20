@@ -19,4 +19,7 @@
     <string name="hardwareMissing">Error: Your device does not support Biometric Authentication</string>
     <string name="hardwareUnvailabale">Error: Biometric hardware currently unavailable</string>
     <string name="biometricEnroll">Please set up biometric features on your device to use them</string>
+
+
+    <string name="test">TESTING</string>
 </resources>

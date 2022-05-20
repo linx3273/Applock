@@ -37,17 +37,23 @@ public class deviceAuth extends AppCompatActivity {
 
         Executor executor = ContextCompat.getMainExecutor(this);
 
+
+
         BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
-                authError();
+                setResult(RESULT_CANCELED);
+                finish();
+
             }
 
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 authSuccessful();
+                setResult(RESULT_OK);
+                finish();
             }
 
             @Override
@@ -85,10 +91,6 @@ public class deviceAuth extends AppCompatActivity {
                 return true;
         }
         return false;
-    }
-
-    private void authError(){
-        Toast.makeText(this, R.string.authErr, Toast.LENGTH_SHORT).show();
     }
 
     private void authFailed(){
