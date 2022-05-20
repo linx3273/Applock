@@ -1,11 +1,16 @@
 package com.linx.applock;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +27,7 @@ public class deviceAuth extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_auth);
-
+        checkCompatibility();
         authenticate();
     }
 
@@ -67,30 +72,37 @@ public class deviceAuth extends AppCompatActivity {
         return 1;
     }
 
-    private boolean checkCompatibility(){
+    private void checkCompatibility(){
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)){
             case BiometricManager.BIOMETRIC_SUCCESS:
-                return true;
+                break;
 
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 msgToast((int) R.string.hardwareMissing,Toast.LENGTH_LONG);
-                return false;
+                break;
 
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 msgToast((int) R.string.hardwareUnvailabale, Toast.LENGTH_LONG);
-                return false;
+                break;
 
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 // user has not setup biometrics so prompt user to do that
                 msgToast((int) R.string.biometricEnroll, Toast.LENGTH_LONG);
                 final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
                 enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
-                IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-                startActivityForResult(enrollIntent, intentIntegrator.REQUEST_CODE);
-                return true;
+
+                ActivityResultLauncher<Intent> enrollBiometric = registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        new ActivityResultCallback<ActivityResult>() {
+                            @Override
+                            public void onActivityResult(ActivityResult result) {
+
+                            }
+                        }
+                );
+                break;
         }
-        return false;
     }
 
     private void authFailed(){
