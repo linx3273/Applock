@@ -10,14 +10,10 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
-
-import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.concurrent.Executor;
 

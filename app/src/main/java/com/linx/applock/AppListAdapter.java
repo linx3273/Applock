@@ -19,7 +19,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
      */
     List<appCardStruct> installedApps;  // list of app cards that will be given to the recylerview
     Context context;
-    sharedPrefManager db;
+    appSharedPref db;
 
 
     AppListAdapter(List<appCardStruct> apps){
@@ -35,7 +35,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         View view = LayoutInflater.from(context).inflate(R.layout.appcardlayout,parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
-        db = new sharedPrefManager(parent.getContext());
+        db = new appSharedPref(parent.getContext());
 
         return viewHolder;
     }

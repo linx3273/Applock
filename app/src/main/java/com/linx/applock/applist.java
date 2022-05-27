@@ -1,7 +1,6 @@
 package com.linx.applock;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -44,8 +43,6 @@ public class applist extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_applist, container, false);
         recyclerView = rootView.findViewById(R.id.app_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         getPackages();
 
         return rootView;
@@ -61,7 +58,7 @@ public class applist extends Fragment {
          */
         //List<ResolveInfo> appslist; // temporary list to get store all installed apps in it
         //List<appCardStruct> appsCard;   // extract for each app from appslist to create a list of apps based on our required structure
-            sharedPrefManager db = new sharedPrefManager(getContext());
+            appSharedPref db = new appSharedPref(getContext());
 
             PackageManager packageManager = getActivity().getPackageManager();
             Intent intent = new Intent();

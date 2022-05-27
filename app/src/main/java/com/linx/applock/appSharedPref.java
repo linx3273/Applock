@@ -3,12 +3,13 @@ package com.linx.applock;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class sharedPrefManager {
+
+public class appSharedPref {
     Context context;
     SharedPreferences shared;
     SharedPreferences.Editor editor;
 
-    public sharedPrefManager(Context parentContext) {
+    public appSharedPref(Context parentContext) {
         context = parentContext;
         shared = context.getSharedPreferences(String.valueOf(R.string.sharedPrefName), Context.MODE_PRIVATE);
         editor = shared.edit();
