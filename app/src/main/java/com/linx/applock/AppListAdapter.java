@@ -2,18 +2,14 @@ package com.linx.applock;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,6 +19,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
      */
     List<appCardStruct> installedApps;  // list of app cards that will be given to the recylerview
     Context context;
+    sharedPrefManager db;
+
 
     AppListAdapter(List<appCardStruct> apps){
         this.installedApps = apps;
@@ -36,6 +34,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         // getting layout file to the adapter
         View view = LayoutInflater.from(context).inflate(R.layout.appcardlayout,parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
+        db = new sharedPrefManager(parent.getContext());
 
         return viewHolder;
     }
@@ -64,11 +64,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 if (!installedApps.get(position).cardLockStatus){
                     installedApps.get(position).cardLockStatus = true;
                     holder.lockstatus.setImageResource(R.drawable.lockedgreen);
+                    db.addEntry(installedApps.get(position).cardPackageName,installedApps.get(position).cardName);
                 }
                 else{
                     installedApps.get(position).cardLockStatus = false;
                     holder.lockstatus.setImageResource(R.drawable.unlockedred);
-
+                    db.removeEntry(installedApps.get(position).cardPackageName);
                 }
             }
         });

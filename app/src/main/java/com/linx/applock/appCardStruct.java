@@ -5,9 +5,9 @@ import android.graphics.drawable.Drawable;
 
 public class appCardStruct {
     /*
-    class designed for matching the structure of the layout @res/layout/appcardlayout.xml
-    Each of the variables have a getter and setter function defined to map data to them
-     */
+    data class with getter and setter function along with matching for packageNames which are unique
+    class is designed to match to the structure provided in the layout  @res/layout/appcardlayout.xml
+    */
     String cardPackageName; // package name format of app eg com.abc.def
     Drawable cardIcon;  //icon of the app
     String cardName;    // name of the app

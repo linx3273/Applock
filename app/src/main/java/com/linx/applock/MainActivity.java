@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment appsPage = new applist();
     Fragment settingsPage = new settings();
     ActivityMainBinding binding;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

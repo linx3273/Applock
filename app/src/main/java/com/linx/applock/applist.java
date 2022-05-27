@@ -1,6 +1,7 @@
 package com.linx.applock;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -28,6 +29,9 @@ public class applist extends Fragment {
     // using a recycler view as it is more memory efficient, by only loading the list elements
     // which are near to the display
     RecyclerView recyclerView;
+    List <ResolveInfo> appslist;
+    List <appCardStruct> appsCard;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +44,13 @@ public class applist extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_applist, container, false);
         recyclerView = rootView.findViewById(R.id.app_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
         getPackages();
 
         return rootView;
     }
+
 
     private void getPackages(){
         /*
@@ -52,29 +59,38 @@ public class applist extends Fragment {
 
         ISSUE: only preinstalled apps are appearing for some reason, probably might have to fix permissions for the app
          */
-        List<ResolveInfo> appslist; // temporary list to get store all installed apps in it
-        List<appCardStruct> appsCard;   // extract for each app from appslist to create a list of apps based on our required structure
+        //List<ResolveInfo> appslist; // temporary list to get store all installed apps in it
+        //List<appCardStruct> appsCard;   // extract for each app from appslist to create a list of apps based on our required structure
+            sharedPrefManager db = new sharedPrefManager(getContext());
 
-        PackageManager packageManager = getActivity().getPackageManager();
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            PackageManager packageManager = getActivity().getPackageManager();
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        appslist = packageManager.queryIntentActivities(intent, 0);
-        appslist = sort(appslist, packageManager);
-        appsCard = new ArrayList<>();
+            appslist = packageManager.queryIntentActivities(intent, 0);
+            appslist = sortByName(appslist, packageManager);
+            appsCard = new ArrayList<>();
 
-        for (ResolveInfo info: appslist){
+            for (ResolveInfo info : appslist){
 
-            if(!"com.linx.applock".equals((String)info.activityInfo.packageName)) {
-                appCardStruct appCardInstance = new appCardStruct();
-                appCardInstance.setCardIcon(info.activityInfo.loadIcon(packageManager));
-                appCardInstance.setCardPackageName(info.activityInfo.packageName);
-                appCardInstance.setCardName((String) info.activityInfo.loadLabel(packageManager));
+                if (!"com.linx.applock".equals((String) info.activityInfo.packageName)) {
+                    appCardStruct appCardInstance = new appCardStruct();
+                    appCardInstance.setCardIcon(info.activityInfo.loadIcon(packageManager));
+                    appCardInstance.setCardPackageName(info.activityInfo.packageName);
+                    appCardInstance.setCardName((String) info.activityInfo.loadLabel(packageManager));
 
-                appsCard.add(appCardInstance);
+                    if (db.containsEntry(info.activityInfo.packageName)){
+                        appCardInstance.setCardLockStatus(true);
+                    }
+                    else{
+                        appCardInstance.setCardLockStatus(false);
+                    }
+
+
+                    appsCard.add(appCardInstance);
+                }
             }
-        }
 
         AppListAdapter listAdapter = new AppListAdapter(appsCard);
         recyclerView.setAdapter(listAdapter);
@@ -82,7 +98,7 @@ public class applist extends Fragment {
 
 
 
-    private List<ResolveInfo> sort(List<ResolveInfo> appslist, PackageManager packageManager) {
+    private List<ResolveInfo> sortByName(List<ResolveInfo> appslist, PackageManager packageManager) {
         /*
         defined method to sort ResolveInfo based on name of app
         comparison is done on the name of app the compare() logic of which is based on the strCmp()
