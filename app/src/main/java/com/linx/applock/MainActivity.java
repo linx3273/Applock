@@ -9,8 +9,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.linx.applock.databinding.ActivityMainBinding;
 
@@ -26,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         authCallback();
+        
+        createFragments();
 
         // setting applist as the default fragment when the application is launched
-        replaceFragment(appsPage);
 
         // event listener for the navigation bar
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -36,24 +35,25 @@ public class MainActivity extends AppCompatActivity {
             // check the clicked menu item and call function accordingly using switch
             switch (item.getItemId()) {
                 case R.id.applist:
-                    replaceFragment(appsPage);
+                    getSupportFragmentManager().beginTransaction().show(appsPage).commit();
+                    getSupportFragmentManager().beginTransaction().hide(settingsPage).commit();
                     break;
 
                 case R.id.settings:
-                    replaceFragment(settingsPage);
+                    getSupportFragmentManager().beginTransaction().hide(appsPage).commit();
+                    getSupportFragmentManager().beginTransaction().show(settingsPage).commit();
                     break;
             }
             return true;
         });
     }
 
-    private void replaceFragment(Fragment fragment) {
-        // switches from the current frame to the frame provided in the argument
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
+    private void createFragments() {
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, appsPage).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, settingsPage).commit();
 
+        getSupportFragmentManager().beginTransaction().show(appsPage).commit();
+        getSupportFragmentManager().beginTransaction().hide(settingsPage).commit();
     }
 
     private void authCallback() {
