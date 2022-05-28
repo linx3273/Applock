@@ -1,7 +1,13 @@
 package com.linx.applock;
 
+import static android.app.AppOpsManager.MODE_ALLOWED;
+
+import android.app.AppOpsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
+import android.provider.Settings;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -10,11 +16,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.linx.applock.AppsTab.AppslistPage;
+import com.linx.applock.SettingsTab.SettingsPage;
+import com.linx.applock.authenticators.DeviceAuth;
 import com.linx.applock.databinding.ActivityMainBinding;
 
+
 public class MainActivity extends AppCompatActivity {
-    private Fragment appsPage = new AppList();
-    private Fragment settingsPage = new Settings();
+    private Fragment appsPage = new AppslistPage();
+    private Fragment settingsPage = new SettingsPage();
     private ActivityMainBinding binding;
 
     @Override
@@ -23,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         authCallback();
-        
+        setPermission();
         createFragments();
 
         // setting applist as the default fragment when the application is launched
@@ -46,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+//        BackgroundManager.getInstance().init(this).startAlarmManager();
     }
 
     private void createFragments() {
@@ -79,5 +92,19 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
         authResult.launch(intent);
+    }
+
+    public boolean getPermissionStatus(String permission) {
+        Context context = getApplicationContext();
+        AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
+
+        return mode == MODE_ALLOWED;
+    }
+
+    public void setPermission() {
+        if (!getPermissionStatus(AppOpsManager.OPSTR_GET_USAGE_STATS)) {
+            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        }
     }
 }

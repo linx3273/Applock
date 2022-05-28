@@ -1,4 +1,4 @@
-package com.linx.applock;
+package com.linx.applock.AppsTab;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.linx.applock.R;
+import com.linx.applock.SharedPrefsDB.AppSharedPref;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.List;
     device
  */
 
-public class AppList extends Fragment {
+public class AppslistPage extends Fragment {
     // using a recycler view as it is more memory efficient, by only loading the list elements
     // which are near to the display
     private RecyclerView recyclerView;

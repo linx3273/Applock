@@ -1,4 +1,4 @@
-package com.linx.applock;
+package com.linx.applock.AppsTab;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.linx.applock.R;
+import com.linx.applock.SharedPrefsDB.AppSharedPref;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.linx.applock;
+package com.linx.applock.authenticators;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
+
+import com.linx.applock.R;
 
 import java.util.concurrent.Executor;
 

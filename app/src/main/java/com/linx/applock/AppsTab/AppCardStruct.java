@@ -1,4 +1,4 @@
-package com.linx.applock;
+package com.linx.applock.AppsTab;
 
 import android.graphics.drawable.Drawable;
 

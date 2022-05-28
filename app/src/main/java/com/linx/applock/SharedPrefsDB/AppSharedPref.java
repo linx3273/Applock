@@ -1,7 +1,9 @@
-package com.linx.applock;
+package com.linx.applock.SharedPrefsDB;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.linx.applock.R;
 
 
 public class AppSharedPref {

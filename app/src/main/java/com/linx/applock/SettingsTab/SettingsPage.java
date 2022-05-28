@@ -1,4 +1,4 @@
-package com.linx.applock;
+package com.linx.applock.SettingsTab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class Settings extends Fragment {
+import com.linx.applock.R;
+
+public class SettingsPage extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
