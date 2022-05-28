@@ -3,15 +3,15 @@ package com.linx.applock;
 import android.graphics.drawable.Drawable;
 
 
-public class appCardStruct {
+public class AppCardStruct {
     /*
     data class with getter and setter function along with matching for packageNames which are unique
     class is designed to match to the structure provided in the layout  @res/layout/appcardlayout.xml
     */
-    String cardPackageName; // package name format of app eg com.abc.def
-    Drawable cardIcon;  //icon of the app
-    String cardName;    // name of the app
-    boolean cardLockStatus; // store the current lock status of the app
+    private String cardPackageName; // package name format of app eg com.abc.def
+    private Drawable cardIcon;  //icon of the app
+    private String cardName;    // name of the app
+    private boolean cardLockStatus; // store the current lock status of the app
 
     @Override
     public boolean equals(Object o) {
@@ -22,7 +22,7 @@ public class appCardStruct {
          */
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        appCardStruct that = (appCardStruct) o;
+        AppCardStruct that = (AppCardStruct) o;
         return cardPackageName.equals(that.cardPackageName);
     }
 

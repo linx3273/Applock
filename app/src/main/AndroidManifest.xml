@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Applock">
         <activity
-            android:name=".deviceAuth"
+            android:name=".DeviceAuth"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

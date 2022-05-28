@@ -1,5 +1,10 @@
 package com.linx.applock;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -10,14 +15,9 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.Toast;
-
 import java.util.concurrent.Executor;
 
-public class deviceAuth extends AppCompatActivity {
+public class DeviceAuth extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class deviceAuth extends AppCompatActivity {
         authenticate();
     }
 
-    private void authenticate(){
+    private void authenticate() {
         // creating the prompt to requesting the biometric
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Authentication Required!")
@@ -71,18 +71,18 @@ public class deviceAuth extends AppCompatActivity {
         biometricPrompt.authenticate(promptInfo);
     }
 
-    private void checkCompatibility(){
+    private void checkCompatibility() {
         /*
         checks whether device has biometric support or not
          */
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch(biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)){
+        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 break;
 
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 // device lacks the hardware to support biometric authentication on running device
-                msgToast((int) R.string.hardwareMissing,Toast.LENGTH_LONG);
+                msgToast((int) R.string.hardwareMissing, Toast.LENGTH_LONG);
                 // in these cases it will by default depend on DEVICE_CREDENTIALS (if set up)
                 break;
 
@@ -111,11 +111,11 @@ public class deviceAuth extends AppCompatActivity {
         }
     }
 
-    private void authFailed(){
-        Toast.makeText(this, R.string.authfail,Toast.LENGTH_SHORT).show();
+    private void authFailed() {
+        Toast.makeText(this, R.string.authfail, Toast.LENGTH_SHORT).show();
     }
 
-    private boolean authSuccessful(){
+    private boolean authSuccessful() {
         Toast.makeText(this, R.string.authsuccess, Toast.LENGTH_SHORT).show();
         return true;
     }

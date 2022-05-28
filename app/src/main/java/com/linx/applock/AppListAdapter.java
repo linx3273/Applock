@@ -17,25 +17,26 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     /*
     class to create an app card for adding as a display to the app during runtime
      */
-    List<appCardStruct> installedApps;  // list of app cards that will be given to the recylerview
-    Context context;
-    appSharedPref db;
+    private List<AppCardStruct> installedApps;  // list of app cards that will be given to the recylerview
+    private Context context;
+    private AppSharedPref db;
 
 
-    AppListAdapter(List<appCardStruct> apps){
+    AppListAdapter(List<AppCardStruct> apps) {
         this.installedApps = apps;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (context == null){
+        if (context == null) {
             context = parent.getContext();
         }
         // getting layout file to the adapter
-        View view = LayoutInflater.from(context).inflate(R.layout.appcardlayout,parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.appcardlayout, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
-        db = new appSharedPref(parent.getContext());
+        db = new AppSharedPref(parent.getContext());
 
         return viewHolder;
     }
@@ -46,30 +47,28 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         bind data to the card layout and add an event listener to check for toggles on
         locking/unlocking the app
          */
-        holder.layoutIcon.setImageDrawable(installedApps.get(position).cardIcon);
-        holder.layoutName.setText(installedApps.get(position).cardName);
+        holder.layoutIcon.setImageDrawable(installedApps.get(position).getCardIcon());
+        holder.layoutName.setText(installedApps.get(position).getCardName());
 
         // creating the default lock status icon
-        if(installedApps.get(position).cardLockStatus){
+        if (installedApps.get(position).isCardLockStatus()) {
             holder.lockstatus.setImageResource(R.drawable.lockedgreen);
-        }
-        else{
+        } else {
             holder.lockstatus.setImageResource(R.drawable.unlockedred);
         }
 
         // event listeners to check for toggles on the lock status of each app
-        holder.lockstatus.setOnClickListener(new View.OnClickListener(){
+        holder.lockstatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!installedApps.get(position).cardLockStatus){
-                    installedApps.get(position).cardLockStatus = true;
+                if (!installedApps.get(position).isCardLockStatus()) {
+                    installedApps.get(position).setCardLockStatus(true);
                     holder.lockstatus.setImageResource(R.drawable.lockedgreen);
-                    db.addEntry(installedApps.get(position).cardPackageName,installedApps.get(position).cardName);
-                }
-                else{
-                    installedApps.get(position).cardLockStatus = false;
+                    db.addEntry(installedApps.get(position).getCardPackageName(), installedApps.get(position).getCardName());
+                } else {
+                    installedApps.get(position).setCardLockStatus(false);
                     holder.lockstatus.setImageResource(R.drawable.unlockedred);
-                    db.removeEntry(installedApps.get(position).cardPackageName);
+                    db.removeEntry(installedApps.get(position).getCardPackageName());
                 }
             }
         });

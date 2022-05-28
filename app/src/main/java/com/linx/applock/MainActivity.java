@@ -1,13 +1,13 @@
 package com.linx.applock;
+
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,9 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.linx.applock.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    Fragment appsPage = new applist();
-    Fragment settingsPage = new settings();
-    ActivityMainBinding binding;
+    private Fragment appsPage = new AppList();
+    private Fragment settingsPage = new Settings();
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private  void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         // switches from the current frame to the frame provided in the argument
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -56,18 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void authCallback(){
+    private void authCallback() {
         // function launches an activity for biometric authentication and
         // waits for a response depending on authentication success or failure
         // incase the user tries to cancel the authentication status the application closes
-        Intent intent = new Intent(this, deviceAuth.class);
+        Intent intent = new Intent(this, DeviceAuth.class);
 
         ActivityResultLauncher<Intent> authResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_CANCELED){
+                        if (result.getResultCode() == RESULT_CANCELED) {
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                             homeIntent.addCategory(Intent.CATEGORY_HOME);
                             homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
