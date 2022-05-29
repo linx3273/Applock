@@ -5,6 +5,9 @@ import android.widget.CheckBox;
 import java.util.Objects;
 
 public class SettingsCardStruct {
+    /*
+    a data class to bind to the settingscardlayout (frontend) with the backend
+     */
     private String settingName;
     private Boolean status;
     private CheckBox cbStatus;

@@ -16,11 +16,13 @@ public class SettingsSharedPref {
     }
 
     public void enableSetting() {
+        //enables biometric by writing to db
         editor.putString(String.valueOf(R.string.dbSettingId), "");
         editor.commit();
     }
 
     public void disableSetting() {
+        //disables biometric by removing entry from db
         if (shared.contains(String.valueOf(R.string.dbSettingId))) {
             editor.remove(String.valueOf(R.string.dbSettingId));
             editor.commit();
@@ -28,6 +30,7 @@ public class SettingsSharedPref {
     }
 
     public boolean isEnabled() {
+        // checks for existence in db
         if (shared.contains(String.valueOf(R.string.dbSettingId)))
             return true;
         return false;

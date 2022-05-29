@@ -71,11 +71,15 @@ public class AppslistPage extends Fragment {
             if (app.activityInfo.packageName.equals("com.linx.applock")) {
                 continue;
             }
+            // for each installed app on the device... extract it's packageName, appName and icon
+            // and bind it to an instance of appCardStruct
 
             AppCardStruct appCardInstance = new AppCardStruct();
             appCardInstance.setCardIcon(app.activityInfo.loadIcon(packageManager));
             appCardInstance.setCardPackageName(app.activityInfo.packageName);
             appCardInstance.setCardName((String) app.activityInfo.loadLabel(packageManager));
+
+            // check db to confirm if app is locked or not and set lock status accordingly
             if (db.containsEntry(appCardInstance.getCardPackageName())) {
                 appCardInstance.setCardLockStatus(true);
             } else {
@@ -100,6 +104,7 @@ public class AppslistPage extends Fragment {
 //                }
 //            }).collect(Collectors.toList());
 
+        //sort the apps by name
         Collections.sort(appsCard, (a1, a2) -> a1.getCardName().toLowerCase().compareTo(a2.getCardName().toLowerCase()));
         AppListAdapter listAdapter = new AppListAdapter(appsCard);
         recyclerView.setAdapter(listAdapter);

@@ -46,7 +46,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         holder.checkBox.setChecked(settingChoices.get(position).getStatus());
 
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
-
+            //adding event listener to toggle between enable/disable of checkbox
             @Override
             public void onClick(View v) {
                 if (!settingChoices.get(position).getStatus()) {
@@ -67,6 +67,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         return settingChoices.size();
     }
 
+    //binding the settingscardstruct to the layout so that values can be mapped to it
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView settingTitle;
         CheckBox checkBox;

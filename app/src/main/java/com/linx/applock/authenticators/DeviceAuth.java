@@ -116,6 +116,7 @@ public class DeviceAuth extends AppCompatActivity {
     }
 
     private void getAuthFormat() {
+        //adjusts authenication prompt based on whether biometrics are enabled/disabled for the app
         SettingsSharedPref db = new SettingsSharedPref(getApplicationContext());
         if (db.isEnabled()) {
             authType = BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
