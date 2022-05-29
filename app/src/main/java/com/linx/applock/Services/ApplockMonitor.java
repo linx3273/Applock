@@ -28,7 +28,9 @@ public class ApplockMonitor extends Service {
                     @Override
                     public void run() {
                         Looper.prepare();
-                        while (existsinDB()) {
+
+                        while (true) {
+                            existsinDB();
                             /*
                              TODO I have spent hours on trying to figure this out and looked over countless guides but none are giving me the result I require
                              TODO as most of these guides are almost 12 years old and several functionalities that they use are now depracated making it really hard
@@ -36,6 +38,7 @@ public class ApplockMonitor extends Service {
                              TODO time constraints will force me to drop this as for now, I'll mostly work on it after the submission/evaluation.
 
                              */
+
 //                            ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService("activity");
 //                            activityManager.killBackgroundProcesses();
 
@@ -86,7 +89,7 @@ public class ApplockMonitor extends Service {
         UsageStatsManager usageStatsManager = (UsageStatsManager) this.getSystemService(this.USAGE_STATS_SERVICE);
 
         long endTime = System.currentTimeMillis();
-        long beginTime = endTime - 10;
+        long beginTime = endTime - 5;
 
         String result = "";
 
@@ -112,6 +115,7 @@ public class ApplockMonitor extends Service {
         AppSharedPref dbapps = new AppSharedPref(this);
 
         if (dbapps.containsEntry(getLauncherTopApp())) {
+            System.out.println("LAHMAHO");
             return true;
         }
         return false;

@@ -25,4 +25,5 @@ This is an Android Application developed for Microsoft Engage 2022. It is a Appl
 - Using background services to monitor if a locked app is opened upon which authentication requirement is prompted.
 - However the background service must be constantly restarted as Android automatically kills running background services.
 
-# Screenshots
+# Issues
+
