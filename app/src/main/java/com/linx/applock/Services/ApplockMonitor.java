@@ -42,14 +42,16 @@ public class ApplockMonitor extends Service {
 
                         while (true) {
                             /*
-                             TODO I have spent hours on trying to figure this out and looked over countless guides but none are giving me the result I require
-                             TODO as most of these guides are almost 12 years old and several functionalities that they use are now depracated making it really hard
-                             TODO for me to figure out how to go about.
-                             TODO time constraints will force me to drop this as for now, I'll mostly work on it after the submission/evaluation.
+                             TODO
+                              I have spent hours on trying to figure this out and looked over countless guides but none are giving me the result I require
+                              as most of these guides are almost 12 years old and several functionalities that they use are now deprecated making it really hard
+                              for me to figure out how to go about.
+                              Also, after android 10 services are no longer allowed to call activities due to which calling Authenticator for other apps would
+                              probably require a very  complex roundabout implementation.
+                              Time constraints will force me to drop this as for now, I'll mostly work on it after the submission/evaluation.
                              */
                             if (existsinDB()) {
                                 Toast.makeText(getApplicationContext(), "Failed to intialize authenticator", Toast.LENGTH_LONG).show();
-//                                auth();
                             }
                         }
                     }

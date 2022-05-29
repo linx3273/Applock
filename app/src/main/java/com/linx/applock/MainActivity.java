@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.provider.Settings;
@@ -116,8 +117,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPermission() {
-        if (!getPermissionStatus(AppOpsManager.OPSTR_GET_USAGE_STATS)) {
-            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        if (!getPermissionStatus(Settings.ACTION_USAGE_ACCESS_SETTINGS)) {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
         }
     }
 
