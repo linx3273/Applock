@@ -29,7 +29,7 @@ public class SettingsSharedPref {
         }
     }
 
-    public boolean isEnabled() {
+    public boolean contains() {
         // checks for existence in db
         if (shared.contains(String.valueOf(R.string.dbSettingId)))
             return true;

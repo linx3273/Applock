@@ -6,7 +6,8 @@ import java.util.Objects;
 
 public class SettingsCardStruct {
     /*
-    a data class to bind to the settingscardlayout (frontend) with the backend
+    a data class to bind to the settingscardlayout (frontend) with the backend with
+    their respective getter and setter functions
      */
     private String settingName;
     private Boolean status;

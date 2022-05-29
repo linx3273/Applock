@@ -88,22 +88,6 @@ public class AppslistPage extends Fragment {
             appsCard.add(appCardInstance);
         }
 
-//            this.appsCard=apps.stream().sorted(Comparator.comparing(a -> a.activityInfo.loadLabel(packageManager).toString()))
-//            .filter(a->!a.activityInfo.packageName.equals("com.linx.applock")).map(a->{
-//                appCardStruct appCardInstance = new appCardStruct();
-//                appCardInstance.setCardIcon(a.activityInfo.loadIcon(packageManager));
-//                appCardInstance.setCardPackageName(a.activityInfo.packageName);
-//                appCardInstance.setCardName((String) a.activityInfo.loadLabel(packageManager));
-//                return appCardInstance;
-//            }).peek(a->{
-//                if (db.containsEntry(a.getCardPackageName())){
-//                    a.setCardLockStatus(true);
-//                }
-//                else{
-//                    a.setCardLockStatus(false);
-//                }
-//            }).collect(Collectors.toList());
-
         //sort the apps by name
         Collections.sort(appsCard, (a1, a2) -> a1.getCardName().toLowerCase().compareTo(a2.getCardName().toLowerCase()));
         AppListAdapter listAdapter = new AppListAdapter(appsCard);

@@ -32,6 +32,7 @@ public class ApplockMonitor extends Service {
         //maintaining the foreground service even after the app is terminated and generating a notification to alert the user
         startForeground(3273, createNotification().build());
 
+        // initiating a new thread for the service that were regularly check for the running application
         new Thread(
                 new Runnable() {
                     @Override
@@ -69,8 +70,9 @@ public class ApplockMonitor extends Service {
 
 
     public Notification.Builder createNotification() {
-
-        //creating a notification to prompt the user that a service is running
+        // creating a non-destructible notification bubble to let the user know that there's
+        // a background service that is running the device
+        // and returning the notifcation instance so that it can be bound to the service
         final String CHANNELID = "Foreground Service ID";
         NotificationChannel channel = new NotificationChannel(
                 CHANNELID,
@@ -89,10 +91,18 @@ public class ApplockMonitor extends Service {
 
 
     public String getLauncherTopApp() {
+        // requires ACTION_USAGE_ACCESS_SETTINGS permission to monitor the usage times of applications
+        // Android Lollipop (API level 22) was the last android in which running app info was given willingly to
+        // third party apps...i.e. any later android version will not provide the running apps that are not signed or system
+
+        // This is a round about method were get the lastest running app and collect system times to
+        // check when it was launched
+
+        // collect the most recently launched app in the last 5 seconds and obtain its packageName
         UsageStatsManager usageStatsManager = (UsageStatsManager) this.getSystemService(this.USAGE_STATS_SERVICE);
 
         long endTime = System.currentTimeMillis();
-        long beginTime = endTime - 5;
+        long beginTime = endTime - 5; //5 milliseconds
 
         String result = "";
 
@@ -115,6 +125,10 @@ public class ApplockMonitor extends Service {
     }
 
     public boolean existsinDB() {
+        // function returns true/false based on whether the packageName obtained by getLauncherTopApp()
+        // is present in the database or not
+        // if present return true - to initiate the authorization request
+        // else false and do nothing in that case
         AppSharedPref dbapps = new AppSharedPref(this);
 
         if (dbapps.containsEntry(getLauncherTopApp())) {
@@ -125,9 +139,13 @@ public class ApplockMonitor extends Service {
 
 
     public void auth() {
+        // currently unused but aim was to call on a authenticator if the obtained package from
+        // getLauncherTopApp however services cannot call another activity so i'll have to look for
+        // another solution
+
         int authType;
         SettingsSharedPref dbset = new SettingsSharedPref(this);
-        if (dbset.isEnabled()) {
+        if (!dbset.contains()) {
             authType = BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
         } else {
             authType = BiometricManager.Authenticators.DEVICE_CREDENTIAL;

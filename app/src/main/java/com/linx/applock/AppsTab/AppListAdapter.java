@@ -64,6 +64,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         holder.lockstatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // use click listeners to toggle between values and drawables
                 if (!installedApps.get(position).isCardLockStatus()) {
                     installedApps.get(position).setCardLockStatus(true);
                     holder.lockstatus.setImageResource(R.drawable.lockedgreen);

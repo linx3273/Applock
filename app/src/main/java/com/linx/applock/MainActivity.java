@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        
         authCallback();
         setPermission();
         createFragments();
@@ -54,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
             // creating an event listener for the options on the navigation bar
             // check the clicked menu item and call function accordingly using switch
             switch (item.getItemId()) {
+                //using hide/show to prevent fragment destruction and thereby save time by avoiding
+                // reconstructing those fragments when loaded again
                 case R.id.applist:
+
                     getSupportFragmentManager().beginTransaction().show(appsPage).commit();
                     getSupportFragmentManager().beginTransaction().hide(settingsPage).commit();
                     break;
@@ -89,12 +92,30 @@ public class MainActivity extends AppCompatActivity {
         // incase the user tries to cancel the authentication status the application closes
         Intent intent = new Intent(this, DeviceAuth.class);
 
+        // creating an activity (device auth in this case) and expecting a response from deviceAuth
         ActivityResultLauncher<Intent> authResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
+
+                        // ACTION_MAIN - Start as a main entry point, does not expect to recv data
+
+                        // CATEGORY_HOME - Home activity, the first thing that is displayed on boot
+
+                        // FLAG_ACTIVITY_NEW_TASK - if set, this activity will become the start
+                        // of a new task on this history stack
+
+                        // FLAG_ACTIVITY_SINGLE_TOP - if set, the activity will not be launched if
+                        // it's already running at the top of the history stack
+
+                        // FLAG_ACTIVITY_CLEAR_TOP - If set, and the activity being launched is already running in the current task, then instead of
+                        // launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be
+                        // delivered to the (now on top) old activity as a new Intent.
+
                         if (result.getResultCode() == RESULT_CANCELED) {
+                            // occurs when authentication error occurs clear the activity stack and close the app so that the next time it
+                            // is opened it will require authentication again
                             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                             homeIntent.addCategory(Intent.CATEGORY_HOME);
                             homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -109,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean getPermissionStatus(String permission) {
+        // check if a given permission is provided to the app
         Context context = getApplicationContext();
         AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
         int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.getPackageName());
@@ -117,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPermission() {
+        // request permission from the device
         if (!getPermissionStatus(Settings.ACTION_USAGE_ACCESS_SETTINGS)) {
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_USAGE_ACCESS_SETTINGS);
@@ -128,11 +151,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initiateService() {
+        // starts the background service
         Intent serviceIntent = new Intent(this, ApplockMonitor.class);
         startForegroundService(serviceIntent);
     }
 
     public boolean foregroundServiceRunning() {
+        // used to check if a service is already running or not and therefore
+        // preventing multiple instances of service from launching and wasting resources
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {

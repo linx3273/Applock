@@ -17,7 +17,7 @@ import com.linx.applock.SharedPrefsDB.SettingsSharedPref;
 import java.util.List;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
-    private List<SettingsCardStruct> settingChoices;
+    private List<SettingsCardStruct> settingChoices;    // list of settings that will be provided to the recycler view
     private Context context;
     private SettingsSharedPref db;
 
@@ -42,6 +42,9 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        //bind data to the card layout an add event listener to check for toggles on
+        // settings to update their values accordingly in the database
+
         holder.settingTitle.setText(settingChoices.get(position).getSettingName());
         holder.checkBox.setChecked(settingChoices.get(position).getStatus());
 
@@ -49,6 +52,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
             //adding event listener to toggle between enable/disable of checkbox
             @Override
             public void onClick(View v) {
+                // use click listeners to toggle between settings
                 if (!settingChoices.get(position).getStatus()) {
                     settingChoices.get(position).setStatus(true);
                     holder.checkBox.setChecked(true);
@@ -73,6 +77,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
+            // obtains instance of card layout for settings os that data can be bound to it
             super(itemView);
             settingTitle = itemView.findViewById(R.id.settingnameid);
             checkBox = itemView.findViewById(R.id.settingCheckBox);

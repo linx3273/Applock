@@ -35,6 +35,8 @@ public class SettingsPage extends Fragment {
     }
 
     public void generateSettings() {
+        // create settings based on the settings card struct and add it to an list
+        // which will later be added to the recycler view
         SettingsSharedPref db = new SettingsSharedPref(getContext());
 
         List<SettingsCardStruct> listOfSettings = new ArrayList<>();
@@ -43,7 +45,7 @@ public class SettingsPage extends Fragment {
         SettingsCardStruct settingInstance = new SettingsCardStruct();
         settingInstance.setSettingName("Enable biometrics");
 
-        if (db.isEnabled()) {
+        if (!db.contains()) {
             settingInstance.setStatus(true);
         } else {
             settingInstance.setStatus(false);

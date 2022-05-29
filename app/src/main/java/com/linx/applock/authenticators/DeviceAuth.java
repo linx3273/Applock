@@ -35,7 +35,7 @@ public class DeviceAuth extends AppCompatActivity {
                 .setAllowedAuthenticators(authType)
                 .setConfirmationRequired(false)
                 .build();
-        // BIOMETRIC_WEAK - uses face || fingerprint || iris
+        // BIOMETRIC_WEAK - uses face || fingerprint || iris (depending on hardware support)
         // BIOMETRIC_STRONG - uses only fingerprint
         // DEVICE_CREDENTIAL - requires pin/password/pattern based on what user has set up for his device
 
@@ -45,6 +45,7 @@ public class DeviceAuth extends AppCompatActivity {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
+                // return to calling activity that the user forcefully closed the authentication prompt and it cannot be recovered
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -54,13 +55,14 @@ public class DeviceAuth extends AppCompatActivity {
                 // called when the user force closes the authentication error and it cannot be recovered
                 super.onAuthenticationSucceeded(result);
                 authSuccessful();
+                // return to calling activity that the user authenticated without any issues
                 setResult(RESULT_OK);
                 finish();
             }
 
             @Override
             public void onAuthenticationFailed() {
-                // called when the the recognition is not occuring
+                // when the  credentials / biometrics are not matching
                 super.onAuthenticationFailed();
                 authFailed();
             }
@@ -77,6 +79,7 @@ public class DeviceAuth extends AppCompatActivity {
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate(authType)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
+                // biometric hardware present and user has set them up
                 break;
 
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
@@ -93,6 +96,7 @@ public class DeviceAuth extends AppCompatActivity {
 
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 // user has not setup biometrics so prompt user to do that
+                // new activity is created to open the settings page consisting of biometrics settings
                 msgToast((int) R.string.biometricEnroll, Toast.LENGTH_LONG);
                 startActivity(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS));
                 break;
@@ -100,10 +104,12 @@ public class DeviceAuth extends AppCompatActivity {
     }
 
     private void authFailed() {
+        // prompt a message telling that the authentication failed
         Toast.makeText(this, R.string.authfail, Toast.LENGTH_SHORT).show();
     }
 
     private boolean authSuccessful() {
+        //prompt a message telling that the authentication was successful
         Toast.makeText(this, R.string.authsuccess, Toast.LENGTH_SHORT).show();
         return true;
     }
@@ -117,9 +123,11 @@ public class DeviceAuth extends AppCompatActivity {
     private void getAuthFormat() {
         //adjusts authenication prompt based on whether biometrics are enabled/disabled for the app
         SettingsSharedPref db = new SettingsSharedPref(getApplicationContext());
-        if (db.isEnabled()) {
+        if (!db.contains()) {
+            // if biometric is enabled then use can use default credentials or biometrics that have been set up
             authType = BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
         } else {
+            // biometrics are disabled so use only device credentials
             authType = BiometricManager.Authenticators.DEVICE_CREDENTIAL;
         }
 
