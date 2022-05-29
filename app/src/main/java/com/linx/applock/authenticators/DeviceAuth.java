@@ -11,15 +11,18 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import com.linx.applock.R;
+import com.linx.applock.SharedPrefsDB.SettingsSharedPref;
 
 import java.util.concurrent.Executor;
 
 public class DeviceAuth extends AppCompatActivity {
+    private static int authType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_auth);
+        getAuthFormat();
         checkCompatibility();
         authenticate();
     }
@@ -29,7 +32,7 @@ public class DeviceAuth extends AppCompatActivity {
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Authentication Required!")
                 .setDescription("Complete authentication to gain access")
-                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .setAllowedAuthenticators(authType)
                 .setConfirmationRequired(false)
                 .build();
         // BIOMETRIC_WEAK - uses face || fingerprint || iris
@@ -73,7 +76,7 @@ public class DeviceAuth extends AppCompatActivity {
         checks whether device has biometric support or not
          */
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+        switch (biometricManager.canAuthenticate(authType)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 break;
 
@@ -110,6 +113,16 @@ public class DeviceAuth extends AppCompatActivity {
     private void msgToast(int msg, int size) {
         // a method to create custom Toast widget messages
         Toast.makeText(this, msg, size).show();
+    }
+
+    private void getAuthFormat() {
+        SettingsSharedPref db = new SettingsSharedPref(getApplicationContext());
+        if (db.isEnabled()) {
+            authType = BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+        } else {
+            authType = BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+        }
+
     }
 
 }
