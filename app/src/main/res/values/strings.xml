@@ -20,8 +20,10 @@
     <string name="hardwareUnvailabale">Error: Biometric hardware currently unavailable</string>
     <string name="biometricEnroll">Please set up biometric features on your device to use them</string>
 
-    <!-- Strings for lock status -->
-    <string name="sharedPrefName">lockStatus</string>
+    <!--    Database names-->
+    <string name="appSharedPrefName">lockStatus</string>
+    <string name="settingsSharedPrefName">settingSharedPref</string>
 
-    <string name="test">TESTING</string>
+    <!-- Setting ids -->
+    <string name="dbSettingId">biometric</string>
 </resources>

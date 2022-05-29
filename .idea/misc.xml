@@ -11,9 +11,10 @@
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/activity_shared_pref_manager.xml" value="0.27447916666666666" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/appcardlayout.xml" value="0.264" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/apps.xml" value="0.2" />
-        <entry key="..\:/Projects/Applock/app/src/main/res/layout/fragment_applist.xml" value="0.23007246376811594" />
+        <entry key="..\:/Projects/Applock/app/src/main/res/layout/fragment_applist.xml" value="0.1" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/fragment_settings.xml" value="0.23007246376811594" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/fragment_shared_pref_manager.xml" value="0.27447916666666666" />
+        <entry key="..\:/Projects/Applock/app/src/main/res/layout/settingcardlayout.xml" value="0.2" />
         <entry key="..\:/Projects/Applock/app/src/main/res/menu/bottom_nav_menu.xml" value="0.27447916666666666" />
       </map>
     </option>

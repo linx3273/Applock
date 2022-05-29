@@ -11,7 +11,7 @@ public class AppSharedPref {
     private SharedPreferences.Editor editor;
 
     public AppSharedPref(Context parentContext) {
-        shared = parentContext.getSharedPreferences(String.valueOf(R.string.sharedPrefName), Context.MODE_PRIVATE);
+        shared = parentContext.getSharedPreferences(String.valueOf(R.string.appSharedPrefName), Context.MODE_PRIVATE);
         editor = shared.edit();
     }
 
