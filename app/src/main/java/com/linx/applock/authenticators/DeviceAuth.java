@@ -47,7 +47,6 @@ public class DeviceAuth extends AppCompatActivity {
                 super.onAuthenticationError(errorCode, errString);
                 setResult(RESULT_CANCELED);
                 finish();
-
             }
 
             @Override
