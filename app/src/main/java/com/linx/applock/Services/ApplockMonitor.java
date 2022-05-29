@@ -10,11 +10,20 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.linx.applock.R;
 import com.linx.applock.SharedPrefsDB.AppSharedPref;
+import com.linx.applock.SharedPrefsDB.SettingsSharedPref;
+
+import java.util.concurrent.Executor;
 
 public class ApplockMonitor extends Service {
 
@@ -27,29 +36,21 @@ public class ApplockMonitor extends Service {
                 new Runnable() {
                     @Override
                     public void run() {
+
+
                         Looper.prepare();
 
                         while (true) {
-                            existsinDB();
                             /*
                              TODO I have spent hours on trying to figure this out and looked over countless guides but none are giving me the result I require
                              TODO as most of these guides are almost 12 years old and several functionalities that they use are now depracated making it really hard
                              TODO for me to figure out how to go about.
                              TODO time constraints will force me to drop this as for now, I'll mostly work on it after the submission/evaluation.
-
                              */
-
-//                            ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService("activity");
-//                            activityManager.killBackgroundProcesses();
-
-//                            Intent launchIntent = new Intent(Intent.ACTION_MAIN);
-//                            launchIntent.addCategory(Intent.CATEGORY_HOME);
-//                            ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
-//
-//                            ActivityInfo activityInfo = resolveInfo.activityInfo;
-//                            ComponentName componentName = new ComponentName(activityInfo.applicationInfo.packageName, activityInfo.name);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//                            startActivity(intent);
+                            if (existsinDB()) {
+                                Toast.makeText(getApplicationContext(), "Failed to intialize authenticator", Toast.LENGTH_LONG).show();
+//                                auth();
+                            }
                         }
                     }
                 }
@@ -115,10 +116,48 @@ public class ApplockMonitor extends Service {
         AppSharedPref dbapps = new AppSharedPref(this);
 
         if (dbapps.containsEntry(getLauncherTopApp())) {
-            System.out.println("LAHMAHO");
             return true;
         }
         return false;
+    }
 
+
+    public void auth() {
+        int authType;
+        SettingsSharedPref dbset = new SettingsSharedPref(this);
+        if (dbset.isEnabled()) {
+            authType = BiometricManager.Authenticators.BIOMETRIC_WEAK | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+        } else {
+            authType = BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+        }
+
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Authentication Required!")
+                .setDescription("Complete authentication to gain access")
+                .setAllowedAuthenticators(authType)
+                .setConfirmationRequired(false)
+                .build();
+
+        Executor executor = ContextCompat.getMainExecutor(this);
+        BiometricPrompt biometricPrompt = new BiometricPrompt((FragmentActivity) this.getApplicationContext(), executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        biometricPrompt.authenticate(promptInfo);
     }
 }
+

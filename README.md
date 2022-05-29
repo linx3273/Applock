@@ -9,7 +9,7 @@ This is an Android Application developed for Microsoft Engage 2022. It is a Appl
 
 # Submissions
 - Video - to be added
-- PPT - to be added
+- Logic Flow - to be added
 
 # Using the app
 - Download the app  here
@@ -25,5 +25,11 @@ This is an Android Application developed for Microsoft Engage 2022. It is a Appl
 - Using background services to monitor if a locked app is opened upon which authentication requirement is prompted.
 - However the background service must be constantly restarted as Android automatically kills running background services.
 
+# Tested Devices
+- Samsung devices (running android 12) supported with both fingerprint and Face unlock set up
+- REALME (running android 11) required removal of fingerprint authentication to use Face unlock
+
 # Issues
+- Authenticator for apps besides the application itself is not working, Referred to guides but most of the methods are deprecated (I will remove this part of the README if I'm able to fix this issue before submission deadline).
+
 
