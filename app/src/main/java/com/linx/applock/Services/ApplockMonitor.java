@@ -23,14 +23,30 @@ public class ApplockMonitor extends Service {
         //maintaining the foreground service even after the app is terminated and generating a notification to alert the user
         startForeground(3273, createNotification().build());
 
-        // TODO service should monitor apps that are opened and if they match with the apps that the user locked then force authentication requirement
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
                         Looper.prepare();
-                        while (true) {
-                            existsinDB();
+                        while (existsinDB()) {
+                            /*
+                             TODO I have spent hours on trying to figure this out and looked over countless guides but none are giving me the result I require
+                             TODO as most of these guides are almost 12 years old and several functionalities that they use are now depracated making it really hard
+                             TODO for me to figure out how to go about.
+                             TODO time constraints will force me to drop this as for now, I'll mostly work on it after the submission/evaluation.
+
+                             */
+//                            ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService("activity");
+//                            activityManager.killBackgroundProcesses();
+
+//                            Intent launchIntent = new Intent(Intent.ACTION_MAIN);
+//                            launchIntent.addCategory(Intent.CATEGORY_HOME);
+//                            ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+//
+//                            ActivityInfo activityInfo = resolveInfo.activityInfo;
+//                            ComponentName componentName = new ComponentName(activityInfo.applicationInfo.packageName, activityInfo.name);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+//                            startActivity(intent);
                         }
                     }
                 }
@@ -92,12 +108,13 @@ public class ApplockMonitor extends Service {
         return "";
     }
 
-    public void existsinDB() {
+    public boolean existsinDB() {
         AppSharedPref dbapps = new AppSharedPref(this);
 
         if (dbapps.containsEntry(getLauncherTopApp())) {
-            System.out.println("sdjifvbniaufbvaifubvailbvaiebviqbuviaebrvaierbvaieurbvaieuvbaliurvbaliuvbailurvbaiurvbiurbviulvbiuvbaiurb");
+            return true;
         }
+        return false;
 
     }
 }
