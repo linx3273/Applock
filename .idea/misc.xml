@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Projects/Applock/app/src/main/res/drawable/ic_baseline_android_24.xml" value="0.1695" />
         <entry key="..\:/Projects/Applock/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1525" />
+        <entry key="..\:/Projects/Applock/app/src/main/res/drawable/lockedgreen.xml" value="0.158" />
         <entry key="..\:/Projects/Applock/app/src/main/res/drawable/unlockedred.xml" value="0.172" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/activity_device_auth.xml" value="0.11775362318840579" />
         <entry key="..\:/Projects/Applock/app/src/main/res/layout/activity_main.xml" value="0.1" />
