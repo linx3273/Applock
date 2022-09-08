@@ -12,4 +12,4 @@ This is an Android Application developed for Microsoft Engage 2022. It is a Appl
 - REALME (running android 11) required removal of fingerprint authentication to use Face unlock.
 
 # Issues
-- Authenticator for apps besides the application itself is not working, Referred to guides but most of the methods are deprecated (I will remove this part of the README if I'm able to fix this issue before submission deadline).
+- Authenticator for apps besides the application itself is not working, Referred to guides but most of the methods are deprecated (I will remove this part of the README if I'm able to fix this issue).
